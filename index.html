@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人簡介</title>
+</head>
+<body>
+
+    <!-- 動態替換內容的容器 -->
+    <div id="content-box">
+        載入中...
+    </div>
+
+    <!-- 動態載入其他 HTML 的核心 JavaScript -->
+    <script>
+        function loadPage(pageUrl) {
+            fetch(pageUrl)
+                .then(response => {
+                    if (!response.ok) throw new Error('檔案讀取失敗');
+                    return response.text();
+                })
+                .then(htmlContent => {
+                    // 把讀取到的 HTML 內容塞入容器，完全不重新整理整個頁面
+                    document.getElementById('content-box').innerHTML = htmlContent;
+                })
+                .catch(error => {
+                    document.getElementById('content-box').innerHTML = '<p style="color:red;">載入失敗，找不到該頁面檔案。</p>';
+                });
+        }
+
+        // 首次開啟網頁時，預設自動載入 about.html
+        window.onload = () => loadPage('about.html');
+    </script>
+
+</body>
+</html>
